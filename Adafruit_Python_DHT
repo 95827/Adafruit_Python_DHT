@@ -1,0 +1,40 @@
+import time
+import sys
+import httplib,urlib
+import json
+deviceId="D0QSGZDd"
+deviceKey="uImFhJUHPuZR9GVS"
+def post_to_mcs(payload):
+        headers = {"Content-type": "application/json", "deviceKey": deviceKey}
+        not_connected = 1
+        while (not_connected):
+                try:
+                        conn = httplib.HTTPConnection("api.mediatek.com:80")
+                        conn.connect()
+                        not_connected = 0
+
+                except (httplib.HTTPException, socket.error) as ex:
+
+                        print "Error: %s" % ex time.sleep(10)
+                         # sleep 10 seconds
+               conn.request("POST", "/mcs/v2/devices/" + deviceId + "/datapoin$
+                response = conn.getresponse()
+                print( response.status, response.reason, json.dumps(payload), t$
+                data = response.read()
+                conn.close()
+While true:
+        h0, t0= Adafruit_DHT.read_retry(sensor, pin)
+        if humidity is not None and temperature is not None:
+                print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, $
+
+
+        payload = {"datapoints":[{"dataChnId":"Humidity","values":{"value":h0}},
+                {"dataChnId":"Temperature","values":{"value":t0}}]}
+        post_to_mcs(payload)
+        time.sleep(10)
+
+        else:
+                print('Failed to get reading. Try again!')
+                sys.exit(1)
+
+
